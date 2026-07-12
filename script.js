@@ -49,7 +49,52 @@ const themeToggleBtn = document.getElementById("themeToggleBtn");
 const htmlRoot = document.documentElement;
 
 
-console.log(dashboardView)
-console.log(featureCards)
-console.log(featureSections)
-console.log(backButtons)
+
+
+featureCards.forEach((card) => {
+    card.addEventListener("click", (e) => {
+        let id = e.currentTarget.dataset.target;
+        let show = document.getElementById(id)
+
+        featureSections.forEach((section) => {
+            section.classList.remove("active")
+        })
+
+        show.classList.add("active")
+        dashboardView.style.display = "none"
+    })
+})
+
+//back button
+backButtons.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+        let parent = e.target.closest(".feature-section");
+        parent.classList.remove("active")
+        dashboardView.style.display = "grid"
+    })
+})
+
+
+// todo work
+todoForm.addEventListener("submit", (e) => {
+    e.preventDefault(); // sabse pehle
+
+    let taskText = todoInput.value.trim();
+
+    if (taskText === "") {
+        return;
+    }
+
+    let li = document.createElement("li");
+    li.innerHTML = `
+        <span class="item-text">${taskText}</span>
+        <div class="item-actions">
+            <button class="important-btn"><i class="ri-star-line"></i></button>
+            <button class="complete-btn"><i class="ri-check-line"></i></button>
+            <button class="delete-btn"><i class="ri-delete-bin-line"></i></button>
+        </div>
+    `;
+
+    todoList.appendChild(li);
+    todoInput.value = "";
+});
