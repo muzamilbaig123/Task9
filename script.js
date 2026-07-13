@@ -74,7 +74,7 @@ backButtons.forEach((btn) => {
 
 // todo work
 todoForm.addEventListener("submit", (e) => {
-  e.preventDefault(); // sabse pehle
+  e.preventDefault();
 
   let taskText = todoInput.value.trim();
 
@@ -82,8 +82,10 @@ todoForm.addEventListener("submit", (e) => {
     return;
   }
 
-  saveTodos()
-  renderTodo()
+  todos.push({ id: Date.now(), text: taskText, completed: false, important: false });
+
+  saveTodos();
+  renderTodo();
   todoInput.value = "";
 });
 
@@ -92,24 +94,28 @@ function saveTodos () {
     localStorage.setItem("todos", JSON.stringify(todos))
 } 
 
-function renderTodo () {
-    todoList.innerHTML = "";
+function renderTodo() {
+  todoList.innerHTML = "";
 
-     let li = document.createElement("li");
-  li.innerHTML = `
-        <span class="item-text">${taskText}</span>
-        <div class="item-actions">
-            <button class="important-btn"><i class="ri-star-line"></i></button>
-            <button class="complete-btn"><i class="ri-check-line"></i></button>
-            <button class="delete-btn"><i class="ri-delete-bin-line"></i></button>
-        </div>
+  todos.forEach((todo) => {
+    let li = document.createElement("li");
+    li.dataset.id = todo.id;
+
+    if (todo.completed) li.classList.add("completed");
+    if (todo.important) li.classList.add("important");
+
+    li.innerHTML = `
+      <span class="item-text">${todo.text}</span>
+      <div class="item-actions">
+          <button class="important-btn"><i class="ri-star-line"></i></button>
+          <button class="complete-btn"><i class="ri-check-line"></i></button>
+          <button class="delete-btn"><i class="ri-delete-bin-line"></i></button>
+      </div>
     `;
 
     todoList.appendChild(li);
-
-
-} 
-
+  });
+}
 
 
 // complete, important, delete
