@@ -8,6 +8,7 @@ const backButtons = document.querySelectorAll(".back-btn");
 const todoForm = document.getElementById("todoForm");
 const todoInput = document.getElementById("todoInput");
 const todoList = document.getElementById("todoList");
+let todos = [];
 
 // Daily Planner
 const plannerList = document.getElementById("plannerList");
@@ -48,45 +49,54 @@ const dynamicBg = document.getElementById("dynamicBg");
 const themeToggleBtn = document.getElementById("themeToggleBtn");
 const htmlRoot = document.documentElement;
 
-
-
-
 featureCards.forEach((card) => {
-    card.addEventListener("click", (e) => {
-        let id = e.currentTarget.dataset.target;
-        let show = document.getElementById(id)
+  card.addEventListener("click", (e) => {
+    let id = e.currentTarget.dataset.target;
+    let show = document.getElementById(id);
 
-        featureSections.forEach((section) => {
-            section.classList.remove("active")
-        })
+    featureSections.forEach((section) => {
+      section.classList.remove("active");
+    });
 
-        show.classList.add("active")
-        dashboardView.style.display = "none"
-    })
-})
+    show.classList.add("active");
+    dashboardView.style.display = "none";
+  });
+});
 
 //back button
 backButtons.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-        let parent = e.target.closest(".feature-section");
-        parent.classList.remove("active")
-        dashboardView.style.display = "grid"
-    })
-})
-
+  btn.addEventListener("click", (e) => {
+    let parent = e.target.closest(".feature-section");
+    parent.classList.remove("active");
+    dashboardView.style.display = "grid";
+  });
+});
 
 // todo work
 todoForm.addEventListener("submit", (e) => {
-    e.preventDefault(); // sabse pehle
+  e.preventDefault(); // sabse pehle
 
-    let taskText = todoInput.value.trim();
+  let taskText = todoInput.value.trim();
 
-    if (taskText === "") {
-        return;
-    }
+  if (taskText === "") {
+    return;
+  }
 
-    let li = document.createElement("li");
-    li.innerHTML = `
+  saveTodos()
+  renderTodo()
+  todoInput.value = "";
+});
+
+
+function saveTodos () {
+    localStorage.setItem("todos", JSON.stringify(todos))
+} 
+
+function renderTodo () {
+    todoList.innerHTML = "";
+
+     let li = document.createElement("li");
+  li.innerHTML = `
         <span class="item-text">${taskText}</span>
         <div class="item-actions">
             <button class="important-btn"><i class="ri-star-line"></i></button>
@@ -96,5 +106,29 @@ todoForm.addEventListener("submit", (e) => {
     `;
 
     todoList.appendChild(li);
-    todoInput.value = "";
+
+
+} 
+
+
+
+// complete, important, delete
+todoList.addEventListener("click", (e) => {
+  let btn = e.target.closest("button");
+
+  if (!btn) return;
+
+  let liEle = btn.closest("li");
+
+  let importantBtn = btn.classList.contains("important-btn");
+  let completeBtn = btn.classList.contains("complete-btn");
+  let deletetBtn = btn.classList.contains("delete-btn");
+
+  if (importantBtn) {
+    liEle.classList.toggle("important");
+  } else if (completeBtn) {
+    liEle.classList.toggle("completed");
+  } else if (deletetBtn) {
+    liEle.remove();
+  }
 });
