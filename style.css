@@ -5,7 +5,6 @@
 }
 
 :root {
-  /* dark theme (default) */
   --ink: #edeae2;
   --ink-muted: #9ba0aa;
   --surface: #1c1f26;
@@ -45,6 +44,7 @@ body {
   overflow-x: hidden;
 }
 
+/* Dynamic Background */
 #dynamicBg {
   position: fixed;
   inset: 0;
@@ -72,7 +72,7 @@ body {
   padding: 24px 20px 60px;
 }
 
-/* Top Bar */
+/* Top bar */
 .topbar {
   display: flex;
   align-items: center;
@@ -223,6 +223,7 @@ body {
   color: var(--ink-muted);
 }
 
+/* Feature Full screen view */
 .feature-section {
   display: none;
   background: var(--surface);
@@ -286,7 +287,6 @@ body {
   color: var(--accent);
 }
 
-/* Form Elements (shared) */
 .input-row {
   display: flex;
   gap: 10px;
@@ -341,7 +341,7 @@ input[type="text"]:focus {
   opacity: 0.85;
 }
 
-/* Item List (Todo Goals share this) */
+/* Item List */
 .item-list {
   list-style: none;
   display: flex;
@@ -497,7 +497,7 @@ input[type="text"]:focus {
   display: none !important;
 }
 
-/* Pomodoro */
+/* PomDoro */
 .pomodoro-body {
   display: flex;
   flex-direction: column;
